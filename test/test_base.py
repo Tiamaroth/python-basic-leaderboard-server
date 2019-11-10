@@ -1,7 +1,8 @@
 import unittest
 import sys
 sys.path.append("..")
-import server
+import request_handler
+import leaderboard_operation
 import urllib.request
 import json
 import threading
@@ -18,8 +19,7 @@ class TestBase(unittest.TestCase):
     test_thread = None
     
     def setUp(self):
-        server.Server.timeout = 1
-        httpd = HTTPServer(("localhost", SERVER_PORT), server.Server)
+        httpd = HTTPServer(("localhost", SERVER_PORT), request_handler.RequestHandler)
         httpd.timeout = 0.1
         print(time.asctime(), 'Test Server UP - ')
         self.server_alive = True
@@ -31,7 +31,7 @@ class TestBase(unittest.TestCase):
         self.test_thread.start()   
 
     def tearDown(self):
-        server.Server.leaderboard.clear()
+        request_handler.RequestHandler.leaderboard_operation.leaderboard.clear()
         self.server_alive = False
         self.test_thread.join()
         print(time.asctime(), 'Test Server DOWN - ')
@@ -57,7 +57,7 @@ class TestBase(unittest.TestCase):
         #adding data params will switch automatically to POST
         req = urllib.request.Request(address, data=params, headers=self.jsonHeader) 
         with urllib.request.urlopen(req) as f:
-            self.assertEqual(json.loads(f.read().decode("utf-8")), server.Server.status_ok)
+            self.assertEqual(json.loads(f.read().decode("utf-8")), leaderboard_operation.LeaderboardOperations.kStatus_ok)
              
     
     def add_X_user(self,num_user):

@@ -3,12 +3,8 @@ from test.test_base import TestBase,server_url
 import json
 import urllib.error
 import operator
-import server
+
 class TestLeaderboardOps(TestBase):
-
-    
-
-
     def test_empty_list(self):
         """
             Checks that if we do not post any score, the top 100 is empty
