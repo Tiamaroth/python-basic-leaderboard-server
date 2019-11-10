@@ -21,7 +21,7 @@ class LeaderboardOperations:
         """        
         top_number = path.rsplit('/', 1).pop()
         try:
-            sorted_list = self.leaderboard.get_top(int(top_number)) #TODO refactor
+            sorted_list = self.leaderboard.get_top(int(top_number))
             return JSONResponse(200,sorted_list)
         except ValueError:
             raise RequestError(400,"Wrong parameter type expected int got {}".format(top_number))
@@ -32,7 +32,7 @@ class LeaderboardOperations:
         """
         splitted = path.rsplit('/', 2)
         try:
-            sorted_list = self.leaderboard.get_partial(int(splitted[1]),int(splitted[2])) #TODO sanity check
+            sorted_list = self.leaderboard.get_partial(int(splitted[1]),int(splitted[2]))
             return JSONResponse(200,sorted_list)
         except ValueError:
             raise RequestError(400,"Wrong parameter type expected int got {}".format(splitted))
